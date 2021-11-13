@@ -1,1 +1,3 @@
 export const ADD_TO_LIST = 'ADD_TO_LIST';
+export const UPDATE_IMAGE_PATH = 'UPDATE_IMAGE_PATH';
+export const UPDATE_CAPTION = 'UPDATE_CAPTION';

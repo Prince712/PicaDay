@@ -10,13 +10,14 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import LogoTitle from '../components/LogoTitle';
 import FabButton from '../components/FabButton';
 import {addToList} from '../actions/index';
-import {useDispatch} from 'react-redux';
+import {useDispatch,useSelector} from 'react-redux';
+import moment from 'moment';
 const BottomBar = createBottomTabNavigator();
 
 export const TabBar = ({navigation}) => {
   const dispatch = useDispatch();
-
-  const AddPost = item => dispatch(addToList(item));
+  const Posts = useSelector(state => state.posts.data);
+  // const AddPost = item => dispatch(addToList(item));
 
   return (
     <BottomBar.Navigator
@@ -36,6 +37,7 @@ export const TabBar = ({navigation}) => {
         tabBarInactiveTintColor: '#6C6C6C',
         tabBarShowLabel: false,
         headerTitle: props => <LogoTitle {...props} />,
+        headerTitleAlign:'center'
       })}>
       <BottomBar.Screen name="Home" component={Home} />
       <BottomBar.Screen
@@ -47,11 +49,20 @@ export const TabBar = ({navigation}) => {
         listeners={({navigation}) => ({
           tabPress: e => {
             e.preventDefault();
-            navigation.navigate('AddPost');
+            console.log(Posts);
+            let lastpicDate = Posts.length > 0 ? Posts[Posts.length - 1 ].post_date  : '';
+            let todayDate = moment(new Date()).format("YYYY-MM-DD")
+            
+            // if(Posts  && todayDate === lastpicDate ){             
+            //   console.log("You have already clicked today's pic");              
+            // }else{
+              navigation.navigate('AddPost');
+            // }
+            
           },
         })}
       />
-      <BottomBar.Screen name="Info" component={Home} />
+      <BottomBar.Screen name="Info" component={Info} />
     </BottomBar.Navigator>
   );
 };

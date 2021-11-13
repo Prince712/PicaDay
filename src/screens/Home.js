@@ -11,8 +11,8 @@ export default function Home({navigation}) {
       <FlatList
         style={{}}
         data={Posts}
-        renderItem={PostItem}
-        keyExtractor={item => item.name}
+        renderItem={item => PostItem(item,{navigation})}
+        keyExtractor={item => item.post_id}
       />
       {/* <Text>I am home screen</Text>
       <Button title='Go to details'
@@ -24,7 +24,7 @@ export default function Home({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    // justifyContent: 'center',
+    // alignItems: 'center',
   },
 });
