@@ -88,9 +88,11 @@ class AddPost extends Component {
   moveImageToLocation = image => {
     let PictureDir = RNFetchBlob.fs.dirs.PictureDir;
     // const fileName = moment(new Date()).format('YYYY-MM-DD');
+
+    
     let img = this.randomString();
     const fileName = `img_${img}`;
-    // const folderPath ='/storage/emulated/0/picaday';
+
     const extension = image.path.split('.').pop();
     const folderPath = `${PictureDir}/picaday`;
     const filePath = `${folderPath}/${fileName}.${extension}`;
@@ -176,7 +178,7 @@ class AddPost extends Component {
           location: `${cityName},${countryName}`,
           post_date: moment(new Date()).format('YYYY-MM-DD'),
         };
-  //call action
+        //call action
         this.props
           .addToList(params)
           .then(res => {
@@ -221,7 +223,7 @@ class AddPost extends Component {
             result['android.permission.ACCESS_FINE_LOCATION'] === 'granted'
           ) {
             // setisGrantedPermissions(true);
-            this.takeImageFromCamera();
+            // this.takeImageFromCamera();
             this.getGeolocation();
           } else if (
             result['android.permission.CAMERA'] ||
@@ -249,7 +251,8 @@ class AddPost extends Component {
         let lat = position.coords.latitude ? position.coords.latitude : null;
         let long = position.coords.longitude ? position.coords.longitude : null;
         this.getWeather(lat, long);
-        /// call the city name.....
+        this.takeImageFromCamera();
+       
       },
       error => {
         // See error code charts below.
@@ -337,7 +340,7 @@ class AddPost extends Component {
       this.props
         .updateCaption(params)
         .then(res => {
-          console.log('done', res);
+          // console.log('done', res);
         })
         .catch(e => {
           // console.log('error adding to reducere', e);

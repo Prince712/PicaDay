@@ -1,7 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, TouchableOpacity, Text} from 'react-native';
 import {
-  BottomTabBar,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
 import Home from '../screens/Home';
@@ -9,15 +7,12 @@ import Info from '../screens/Info';
 import Icon from 'react-native-vector-icons/Ionicons';
 import LogoTitle from '../components/LogoTitle';
 import FabButton from '../components/FabButton';
-import {addToList} from '../actions/index';
-import {useDispatch,useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import moment from 'moment';
 const BottomBar = createBottomTabNavigator();
 
 export const TabBar = ({navigation}) => {
-  const dispatch = useDispatch();
   const Posts = useSelector(state => state.posts.data);
-  // const AddPost = item => dispatch(addToList(item));
 
   return (
     <BottomBar.Navigator
@@ -49,16 +44,16 @@ export const TabBar = ({navigation}) => {
         listeners={({navigation}) => ({
           tabPress: e => {
             e.preventDefault();
-            console.log(Posts);
+            // console.log(Posts);
             let lastpicDate = Posts.length > 0 ? Posts[Posts.length - 1 ].post_date  : '';
-            let todayDate = moment(new Date()).format("YYYY-MM-DD")
+            let todayDate = moment(new Date()).format("YYYY-MM-DD");
             
-            // if(Posts  && todayDate === lastpicDate ){             
-            //   console.log("You have already clicked today's pic");              
-            // }else{
+            if(Posts  && todayDate === lastpicDate ){             
+              // console.log("You have already clicked today's pic"); 
+              alert("You have already clicked today's picture. Try tomorrow :-)");            
+            }else{
               navigation.navigate('AddPost');
-            // }
-            
+            }            
           },
         })}
       />
