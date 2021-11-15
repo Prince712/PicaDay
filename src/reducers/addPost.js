@@ -3,30 +3,38 @@ import update from 'immutability-helper';
 const initialState = {
   data: [],
   installDate: new Date(),
-  maxTemp:0,
-  minTemp:0
+  maxTemp: 0,
+  minTemp: 0,
 };
 
 const addPost = (state = initialState, action) => {
   let index;
   switch (action.type) {
-      
     case ADD_TO_LIST:
+      let newData;
+      let newPostDate = action.payload.post_date;
+      let lastPostDate = state.data.length > 0 ? state.data[0].post_date :'';
 
-    let newData = state.data.concat(action.payload);
-     let  max_temp_obj = newData.reduce(function(prev, current) {
-        return (prev.temperature > current.temperature) ? prev : current
-     })
-     let  min_temp_obj = newData.reduce(function(prev, current) {
-      return (prev.temperature < current.temperature) ? prev : current
-     });
+      if (lastPostDate == newPostDate) {
+        newData = update(state.data, {$splice: [[0, 1]]});
+        newData = update(newData, {$unshift: [action.payload]});
+      } else {
+        newData = update(state.data, {$unshift: [action.payload]});
+      }
 
-      return {
-        ...state,
-        data: newData,
-        maxTemp : max_temp_obj,
-        minTemp : min_temp_obj
-      };
+      let max_temp_obj = newData.reduce(function (prev, current) {
+        return prev.temperature > current.temperature ? prev : current;
+      });
+      let min_temp_obj = newData.reduce(function (prev, current) {
+        return prev.temperature < current.temperature ? prev : current;
+      });
+
+      return update(state, {
+        data: {$set: newData},
+        maxTemp: {$set: max_temp_obj},
+        minTemp: {$set: min_temp_obj},
+      });
+
     case UPDATE_IMAGE_PATH:
       index = state.data.findIndex(
         item => item.post_id === action.payload.post_id,

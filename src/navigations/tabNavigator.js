@@ -44,16 +44,8 @@ export const TabBar = ({navigation}) => {
         listeners={({navigation}) => ({
           tabPress: e => {
             e.preventDefault();
-            // console.log(Posts);
-            let lastpicDate = Posts.length > 0 ? Posts[Posts.length - 1 ].post_date  : '';
-            let todayDate = moment(new Date()).format("YYYY-MM-DD");
-            
-            if(Posts  && todayDate === lastpicDate ){             
-              // console.log("You have already clicked today's pic"); 
-              alert("You have already clicked today's picture. Try tomorrow :-)");            
-            }else{
-              navigation.navigate('AddPost');
-            }            
+             
+            navigation.navigate('AddPost');                      
           },
         })}
       />
