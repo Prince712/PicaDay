@@ -41,7 +41,7 @@ export default function Details({route, navigation}) {
       <View style={styles.captionContainer}>
         {todaysPost ? (
           <TextInput
-            style={{}}
+            style={{color:'#6C6C6C'}}
             numberOfLines={5}
             multiline={true}
             placeholder="Type your thoughts..."
