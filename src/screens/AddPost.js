@@ -41,6 +41,8 @@ class AddPost extends Component {
       caption: '',
       typing: false,
       typingTimeout: 0,
+      month:'',
+      day:''
     };
 
     this.checkPermission = this.checkPermission.bind(this);
@@ -59,7 +61,7 @@ class AddPost extends Component {
 
   componentDidMount() {
     this.checkPermission();
-  }
+  } 
 
   takeImageFromCamera = () => {
     ImagePicker.openCamera({
@@ -168,7 +170,13 @@ class AddPost extends Component {
     if (imagepath != null && temperature != 0) {
       try {
         let uniqueNumber = this.randomString();
-        this.setState({post_id: `post_${uniqueNumber}`});
+       
+
+        let date = new Date();
+        let month = moment(date, 'M').format('MMM');
+        let day = moment(date, 'D').format('DD');
+        // this.setState({month,day});
+        this.setState({post_id: `post_${uniqueNumber}`,month,day});
 
         let params = {
           post_id: `post_${uniqueNumber}`,
@@ -351,7 +359,7 @@ class AddPost extends Component {
   };
 
   render() {
-    let {loading, imagepath, temperature, caption, cityName, countryName} =
+    let {loading, imagepath, temperature, caption, cityName, countryName,month,day} =
       this.state;
     if (loading) {
       return (
@@ -364,52 +372,55 @@ class AddPost extends Component {
       <ScrollView style={{flex: 1}}>
         {/* <Button title={'Add items'} onPress={() => AddPost({name: 'Thor'})} /> */}
         {imagepath != null && (
-          <ImageBackground style={styles.imageStyle} source={{uri: imagepath}}>
-            <View style={{flex: 1, justifyContent: 'flex-end'}}>
-              <View style={styles.textAlignView}>
-                <View style={styles.textContainer}>
-                  <Icon name={'ios-pin-outline'} size={15} color={'#ffffff'} />
-                  <Text
-                    style={
-                      styles.fontStyle
-                    }>{`${cityName},${countryName}`}</Text>
-                </View>
+       <ImageBackground style={styles.imageStyle} source={{uri: imagepath}}>
+        <View style={{flex: 1,}}>
+              <View style={{padding: 10, alignItems: 'center', flexWrap: 'wrap'}}>
+                <Text style={styles.month}>{month}</Text>
+                <Text style={styles.day}>{day}</Text>
+              </View>
 
-                <View style={styles.textContainer}>
-                  <Text
-                    style={[
-                      styles.fontStyle,
-                      {fontWeight: 'bold', paddingRight: 5},
-                    ]}>
-                    {temperature} &#176;
-                  </Text>
-                  <Icon
-                    name={'ios-sunny-outline'}
-                    size={25}
-                    color={'#ffffff'}
-                    fontWeight={'bold'}
-                  />
+           <View style={{flex: 1, justifyContent: 'flex-end',}}>
+                <View style={styles.textAlignView}>
+                  <View style={styles.textContainer}>
+                    <Icon name={'ios-pin-outline'} size={15} color={'#ffffff'} />
+                    <Text
+                      style={
+                        styles.fontStyle
+                      }>{`${cityName},${countryName}`}</Text>
+                  </View>
+
+                  <View style={styles.textContainer}>
+                    <Text
+                      style={[
+                        styles.fontStyle,
+                        {fontWeight: 'bold', paddingRight: 5},
+                      ]}>
+                      {temperature} &#176;
+                    </Text>
+                    <Icon
+                      name={'ios-sunny-outline'}
+                      size={25}
+                      color={'#ffffff'}
+                      fontWeight={'bold'}
+                    />
+                  </View>
                 </View>
-              </View>
-              <View
-                style={{
-                  justifyContent: 'center',
-                  marginBottom: -38,
-                  alignItems: 'center',
-                }}>
-                <TouchableOpacity
-                  onPress={() => this.takeImageFromCamera()}
-                  style={styles.retakeButton}
-                  activeOpacity={0.9}>
-                  <MaterialIcons
-                    name={'camera'}
-                    size={50}
-                    color={'#2FE3BA'}
-                    fontWeight={'bold'}
-                  />
-                </TouchableOpacity>
-              </View>
+                <View
+                  style={{justifyContent: 'center',marginBottom: -38,alignItems: 'center',}}>
+                  <TouchableOpacity
+                    onPress={() => this.takeImageFromCamera()}
+                    style={styles.retakeButton}
+                    activeOpacity={0.9}>
+                    <MaterialIcons
+                      name={'camera'}
+                      size={50}
+                      color={'#2FE3BA'}
+                      fontWeight={'bold'}
+                    />
+                  </TouchableOpacity>
+                </View>
             </View>
+      </View>
           </ImageBackground>
         )}
 
@@ -465,6 +476,15 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     marginTop: 28,
+  },
+  day: {
+    color: '#fff',
+    fontSize: 22,
+    fontWeight: 'bold',
+  },
+  month: {
+    color: '#fff',
+    fontWeight: 'bold',
   },
 });
 
