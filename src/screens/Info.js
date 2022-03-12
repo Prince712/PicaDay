@@ -5,8 +5,8 @@ import {useDispatch, useSelector} from 'react-redux';
 export default function Info() {
   const Posts = useSelector(state => state.posts.data);
   const installedOn = useSelector(state => state.posts.installDate);
-  const maxTemp = useSelector(state => state.posts.maxTemp);
-  const minTemp = useSelector(state => state.posts.minTemp);
+  const maxTemp = useSelector(state => state.posts.maxTemp)||{};
+  const minTemp = useSelector(state => state.posts.minTemp)|| {};
 
   let recodedDays = Posts.length;
   let today = moment(new Date());

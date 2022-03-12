@@ -15,7 +15,7 @@ import {PersistGate} from 'redux-persist/integration/react';
 import {View, ActivityIndicator} from 'react-native';
 import {TabBar} from './src/navigations/tabNavigator';
 import RouteComponent from './src/navigations';
-
+// import ChatDemo from './src/demos';
 const App = () => {
   return (
     <Provider store={store}>
@@ -23,6 +23,7 @@ const App = () => {
         <RouteComponent />
       </PersistGate>
     </Provider>
+    // <ChatDemo/ >
   );
 };
 
